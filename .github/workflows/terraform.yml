@@ -69,9 +69,6 @@ jobs:
     name: Terraform Plan
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'plan')
-    defaults:
-      run:
-        working-directory: ./envs/${{ github.event.inputs.environment || 'dev' }}
 
     steps:
       - name: Checkout code
@@ -140,9 +137,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: terraform-validate
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'apply'
-    defaults:
-      run:
-        working-directory: ./envs/${{ github.event.inputs.environment }}
 
     steps:
       - name: Checkout code
