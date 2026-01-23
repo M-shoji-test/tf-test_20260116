@@ -37,9 +37,6 @@ jobs:
   terraform-validate:
     name: Terraform Validate
     runs-on: ubuntu-latest
-      #defaults:
-      #run:
-      # working-directory: ./envs/${{ github.event.inputs.environment || 'dev' }}
 
     steps:
       - name: Checkout code
