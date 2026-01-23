@@ -23,7 +23,7 @@ on:
   pull_request:
     branches:
       - main
-      - develop
+      - dev
     paths:
       - '**.tf'
       - '**.tfvars'
@@ -37,9 +37,9 @@ jobs:
   terraform-validate:
     name: Terraform Validate
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./envs/${{ github.event.inputs.environment || 'dev' }}
+      #defaults:
+      #run:
+      # working-directory: ./envs/${{ github.event.inputs.environment || 'dev' }}
 
     steps:
       - name: Checkout code
