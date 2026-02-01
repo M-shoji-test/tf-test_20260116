@@ -8,3 +8,10 @@ crash.*.log
 
 # Allow only this state file
 !terraform.tfstate
+
+# Terraform state (DO NOT COMMIT)
+*.tfstate
+*.tfstate.*
+
+# Terraform working directory
+.terraform/
