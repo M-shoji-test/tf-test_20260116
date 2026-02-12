@@ -24,3 +24,23 @@ resource "aws_instance" "al2023" {
   }
 }
 
+# Elastic IP を確保
+resource "aws_eip" "al2023" {
+  domain = "vpc"
+
+  tags = {
+    Name = "tf-test_20260116-eip"
+  }
+}
+
+# その EIP を EC2 に関連付け
+resource "aws_eip_association" "al2023" {
+  instance_id   = aws_instance.al2023.id
+  allocation_id = aws_eip.al2023.id
+}
+
+# （任意）出力しておくと便利
+output "al2023_eip" {
+  value = aws_eip.al2023.public_ip
+}
+
