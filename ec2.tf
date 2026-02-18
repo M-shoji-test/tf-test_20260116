@@ -29,7 +29,7 @@ resource "aws_instance" "db" {
   instance_type          = "t3.micro"
   subnet_id              = aws_subnet.private_a.id
   key_name               = "2026-0105-test"
-  vpc_security_group_ids = [data.aws_security_group.db.id]
+  vpc_security_group_ids = [aws_security_group.db.id]
 
   tags = { Name = "WP-test-db" }
 
@@ -48,9 +48,9 @@ resource "aws_instance" "db" {
 resource "aws_instance" "bk" {
   ami                    = "ami-0c83cb1c664994bbd"
   instance_type          = "t3.micro"
-  subnet_id              = "subnet-034b05d68308103d8"
+  subnet_id              = aws_subnet.private_b.id
   key_name               = "2026-0105-test"
-  vpc_security_group_ids = [data.aws_security_group.bk.id]
+  vpc_security_group_ids = [aws_security_group.bk.id]
 
   tags = { Name = "WP-test-bk" }
 
