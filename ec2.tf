@@ -24,6 +24,48 @@ resource "aws_instance" "al2023" {
   }
 }
 
+resource "aws_instance" "db" {
+  ami                    = "ami-0677aa126dc453424"
+  instance_type          = "t3.micro"
+  subnet_id              = aws_subnet.private_a.id
+  key_name               = "2026-0105-test"
+  vpc_security_group_ids = [aws_security_group.db.id]
+
+  tags = { Name = "WP-test-db" }
+
+  lifecycle {
+    ignore_changes = [
+      ami,
+      user_data,
+      user_data_replace_on_change,
+      root_block_device,
+      metadata_options,
+      credit_specification
+    ]
+  }
+}
+
+resource "aws_instance" "bk" {
+  ami                    = "ami-0c83cb1c664994bbd"
+  instance_type          = "t3.micro"
+  subnet_id              = aws_subnet.private_b.id
+  key_name               = "2026-0105-test"
+  vpc_security_group_ids = [aws_security_group.bk.id]
+
+  tags = { Name = "WP-test-bk" }
+
+  lifecycle {
+    ignore_changes = [
+      ami,
+      user_data,
+      user_data_replace_on_change,
+      root_block_device,
+      metadata_options,
+      credit_specification
+    ]
+  }
+}
+
 # Elastic IP を確保
 resource "aws_eip" "al2023" {
   domain = "vpc"
@@ -36,7 +78,7 @@ resource "aws_eip" "al2023" {
 # その EIP を EC2 に関連付け
 resource "aws_eip_association" "al2023" {
   instance_id   = aws_instance.al2023.id
-  allocation_id = aws_eip.al2023.id
+  allocation_id = aws_eip.al2023.allocation_id
 }
 
 # （任意）出力しておくと便利
