@@ -6,12 +6,6 @@ crash.log
 crash.*.log
 .terraform.lock.hcl
 
-# Allow only this state file
-!terraform.tfstate
-
-# Terraform state (DO NOT COMMIT)
-*.tfstate
-*.tfstate.*
-
-# Terraform working directory
-.terraform/
+# local vars (秘密)
+terraform.tfvars
+*.tfvars
