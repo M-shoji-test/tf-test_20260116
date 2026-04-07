@@ -70,7 +70,7 @@ resource "aws_db_instance" "wordpress" {
   identifier = "database-test-sj"
 
   engine         = "mysql"
-  instance_class = "db.m7g.large"
+  instance_class = "db.t3.micro"
 
   allocated_storage     = 20
   max_allocated_storage = 1000
@@ -85,7 +85,7 @@ resource "aws_db_instance" "wordpress" {
   publicly_accessible           = false
   backup_retention_period       = 7
   monitoring_interval           = 60
-  performance_insights_enabled  = true
+  performance_insights_enabled  = false
   copy_tags_to_snapshot         = true
   skip_final_snapshot           = true
 
