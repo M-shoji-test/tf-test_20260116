@@ -17,6 +17,14 @@ resource "aws_security_group" "web" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    description = "NFS"
+    from_port   = 2049
+    to_port     = 2049
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -30,12 +38,12 @@ resource "aws_security_group" "db_sg" {
   description = "Managed by Terraform"
   vpc_id      = "vpc-04e25da47b1e30726"
 
-ingress {
-  from_port   = 22
-  to_port     = 22
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
-}
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   ingress {
     from_port   = 3306
@@ -60,7 +68,7 @@ resource "aws_security_group" "bk" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] 
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -83,5 +91,4 @@ resource "aws_db_subnet_group" "rds_private" {
 
   description = "Created from the RDS Management Console"
 }
-
 

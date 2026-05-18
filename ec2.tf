@@ -80,14 +80,14 @@ resource "aws_db_instance" "wordpress" {
   username = "admin"
   password = var.db_password
 
-  port                          = 3306
-  multi_az                      = true
-  publicly_accessible           = false
-  backup_retention_period       = 7
-  monitoring_interval           = 60
-  performance_insights_enabled  = false
-  copy_tags_to_snapshot         = true
-  skip_final_snapshot           = true
+  port                         = 3306
+  multi_az                     = true
+  publicly_accessible          = false
+  backup_retention_period      = 7
+  monitoring_interval          = 60
+  performance_insights_enabled = false
+  copy_tags_to_snapshot        = true
+  skip_final_snapshot          = true
 
   db_subnet_group_name   = aws_db_subnet_group.rds_private.name
   vpc_security_group_ids = [aws_security_group.db_sg.id]
@@ -95,6 +95,29 @@ resource "aws_db_instance" "wordpress" {
   lifecycle {
     ignore_changes = [password]
   }
+}
+
+resource "aws_efs_file_system" "wp" {
+  creation_token  = "quickCreated-7662bbf5-905b-4c98-bbbf-f33955e96d15"
+  throughput_mode = "elastic"
+
+  tags = {
+    Name = "tf-EFS-test-05182026"
+  }
+
+  lifecycle_policy {
+    transition_to_ia = "AFTER_30_DAYS"
+  }
+
+  lifecycle_policy {
+    transition_to_archive = "AFTER_90_DAYS"
+  }
+}
+
+resource "aws_efs_mount_target" "a" {
+  file_system_id  = aws_efs_file_system.wp.id
+  subnet_id       = "subnet-020b02d4053409608"
+  security_groups = [aws_security_group.web.id]
 }
 
 # Elastic IP を確保
